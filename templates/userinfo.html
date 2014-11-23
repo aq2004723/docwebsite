@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block mainpage %}
+    <div class="container marketing ">
+      <!-- Three columns of text below the carousel -->
+      <div class="row" id="userinfo">
+        <div class="col-lg-4">
+          <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-8">
+          <h2>{{userinfo.get('username')}}</h2>
+          <p>我上传的<a href="#"></a> |   我下载的</p>
+          <a class="btn btn-default" href="#uploaddoc" role="button" data-toggle="modal">现在上传 &raquo;</a>
+        </div><!-- /.col-lg-8 -->
+      </div><!-- /.row -->
+      <hr class="userinfo-divider">
+    </div>
+
+    {% end %}
+
+    {% block modal %}
+    <!--上传新pdf-->
+    <div class="modal fade" id="uploaddoc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close"
+                    data-dismiss="modal" aria-hidden="true">
+              &times;
+            </button>
+            <h4 class="modal-title" >
+              上传新文档
+            </h4>
+          </div>
+          <div class="modal-body" id="uploadform">
+            <from class="form-horizontal" role="form" enctype="multipart/form-data" method="post" role="form" action="/upload">
+              <div class="form-group">
+                <label for="docuploadname" class="col-sm-2 control-label">文档名称</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="docuploadname" placeholder="请输入文档名称" name="docname">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="docuploaddetail" class="col-sm-2 control-label">文档描述</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="docuploaddetail" placeholder="请输入文档名称" name="docdetail">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="choiceclass" class="col-sm-2 control-label" >选择文件</label>
+                <div class="col-sm-8">
+                  <input type="file" id="myfile" name="docfile">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="choiceclass" class="col-sm-2 control-label" >选择课程</label>
+                <div class="col-sm-8">
+                  <select class="form-control" id="choiceclass" name="docclass">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+              </div>
+            </from>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default"
+                    data-dismiss="modal">关闭
+            </button>
+            <input id="signinsubmit" type="submit" class="btn btn-primary">
+            </button>
+          </div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+
+    {% end %}
+
+
+
