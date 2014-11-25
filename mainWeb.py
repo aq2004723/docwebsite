@@ -8,10 +8,11 @@ import tornado.options
 import tornado.web
 from Worker import Worker
 import time 
+import uimodules
 
 
 from tornado.options import define, options
-define("port", default=8008, help="run on the given port", type=int)
+define("port", default=8046, help="run on the given port", type=int)
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -23,8 +24,10 @@ class Application(tornado.web.Application):
             'login_url': "/login",
             'template_path':template_path,
             'static_path':static_path,
+            'ui_modules':uimodules,
         }
 
+       
 
         handlers=[(r'/', IndexHandler), 
             (r'/login', LoginHandler), 
@@ -54,7 +57,8 @@ class LoginHandler(BaseHandler):
 
 class IndexHandler(BaseHandler):
     def get(self):
-        self.render('index.html',user=self.current_user)
+        docs = list(self.application.db.getIndexDoc())
+        self.render('index.html',user=self.current_user,docs = docs)
 
 
 class LogoutHandler(BaseHandler):
@@ -86,8 +90,6 @@ class UseruploadHandler(BaseHandler):
 class SearchHandler(BaseHandler):
     def post(self):
         pass
-        
-        
 
 if __name__ == '__main__':
     tornado.options.parse_command_line()

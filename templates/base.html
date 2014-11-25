@@ -31,7 +31,7 @@
         <nav class="navbar navbar-inverse navbar-fixed-top " role="navigation">
           <div class="container">
             <div class="navbar-header">
-              <a class="navbar-brand" href="#">先声文库</a>
+              <a class="navbar-brand" href="/">先声文库</a>
             </div>
             <form class="navbar-form navbar-left" role="search">
               <div class="form-group">
@@ -156,7 +156,7 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 
-    {% block modal%}
+    {% block modal %}
     {% end %}
 
        <!-- Bootstrap core JavaScript
@@ -164,7 +164,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="{{ static_url('js/bootstrap.min.js') }}"></script>
-    <script src="{{ static_url('js/doc.min.js') }}"></script>
+    <script src="{{ static_url('js/docs.min.js') }}"></script>
     <script src="{{ static_url('js/heralddoc.js')}}"></script>
     <script src="{{ static_url('js/pdfobject.min.js') }}"></script>
     {% block otherjs %}

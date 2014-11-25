@@ -16,7 +16,11 @@
             <div class="carousel-caption">
               <h1>先声文库，最懂你的文库网</h1>
               <p>根据你的课表帮你找到 <code>你的课程</code> ，找到最适合你的文档.</p>
-              <p><a class="btn btn-lg btn-primary" data-toggle="modal" href="#signin" role="button">Sign up today</a></p>
+              {% if user is None %}
+                <p><a class="btn btn-lg btn-primary" data-toggle="modal" href="#signin" role="button">Sign up today</a></p>
+              {% else %}
+                <p><a class="btn btn-lg btn-primary" data-toggle="modal" href="#" role="button">我的课程</a></p>
+              {% end %}
             </div>
           </div>
         </div>
@@ -24,9 +28,9 @@
           <img src="data:image/gif;base64,R0lGODlhAQABAIAAAGZmZgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Second slide">
           <div class="container">
             <div class="carousel-caption">
-              <h1>Another example headline.</h1>
-              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+              <h1>没有找到你的课程？</h1>
+              <p>来看看<code>全部分类</code>吧，总能找到你需要的</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">查看分类</a></p>
             </div>
           </div>
         </div>
@@ -34,9 +38,9 @@
           <img src="data:image/gif;base64,R0lGODlhAQABAIAAAFVVVQAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Third slide">
           <div class="container">
             <div class="carousel-caption">
-              <h1>One more for good measure.</h1>
-              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+              <h1>没有你想要的文档？</h1>
+              <p>来发个<code>求助</code>吧，相信会有小伙伴会帮你找到的！</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">求助？</a></p>
             </div>
           </div>
         </div>
@@ -54,64 +58,28 @@
     <div  class="container marketing">
       <!-- Three columns of text below the carousel -->
       <div class="row" >
-        <div class="col-lg-4">
-          <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" style="width: 140px; height: 140px;">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-          <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" style="width: 140px; height: 140px;">
-          <h2>Heading</h2>
-          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-          <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" style="width: 140px; height: 140px;">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#showpdf" role="button" data-toggle="modal">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
+        {% for doc in docs %}
+            {% module docModule(doc) %}
+        {% end %}
       </div><!-- /.row -->
-
-
       <hr class="featurette-divider">
+      
 
 {% end %}
 
 {% block modal %}
-      <!--显示PDF莫泰框-->
-    <div class="modal fade" id="showpdf" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close"
-                    data-dismiss="modal" aria-hidden="true">
-              &times;
-            </button>
-            <h4 class="modal-title" >
-              你的标题}}
-            </h4>
-          </div>
-          <div id="pdf">It appears you don't have Adobe Reader or PDF support in this web browser. <a href="/pdf/sample.pdf">Click here to download the PDF</a></div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default"
-                    data-dismiss="modal">关闭
-            </button>
-            <button id="download" type="submit" class="btn btn-primary">点击下载
-            </button>
-          </div>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-
+  {% for doc in docs %}
+    {% module showdocModule(doc) %}
+  {% end %}
 {% end %}
 
-{% block otherjs %}
-    <script type="text/javascript">
-      window.onload = function (){
-        var success = new PDFObject({ url: "../../pdf/sample.pdf" }).embed("pdf");
-      };
-
-    </script>
+{% block otherjs%}
+  <script type="text/javascript">
+    window.onload = function (){
+      {% for doc in docs %}
+        var temp{{doc.get('_id')}} = new PDFObject({ url:"{{doc.get('pdflocation')}}" }).embed("{{doc.get('_id')}}show");
+      {% end %}
+    };
+  </script>
 {% end %}
+

@@ -29,7 +29,7 @@ class Worker:
         doc = self.db.docs.find_one({'_id':doc})
         return doc
 
-    def userupload(self,myfile,userid,classname,title):
+    def userupload(self,title,desc,myfile,classname,username):
         day = time.strftime('%Y/%m/%d',time.localtime(time.time()))
         source_path = os.path.join('static/file/source', day)
         if not os.path.isdir(source_path):
@@ -58,18 +58,20 @@ class Worker:
 
         doc ={
             'title':title,
+            'description':desc,
             'classname':classname,
             'pdflocation':pdf_path,
             'sourcelocation':source_path,
             'uploadtime':time.strftime('%F %X',time.localtime(time.time())),
             'downloadcount':0,
-            'userid':userid,
+            'username':userid,
             'cover':"",
         }
 
         return self.db.docs.insert(doc)
     def getIndexDoc(self):
-        post = self.db.doc
+        docs = self.db.docs.find(limit = 9)
+        return docs
 
 
 if __name__ == '__main__':
