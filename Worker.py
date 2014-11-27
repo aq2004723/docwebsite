@@ -1,8 +1,11 @@
 #coding = uft-8
 
 from pymongo import Connection
+import pymongo
 import datetime
 import uuid
+import time
+import os
 
 class Worker:
     def __init__(self):
@@ -50,11 +53,15 @@ class Worker:
         with open(source_path,'wb') as up:
             up.write(myfile['body'])
 
-        if not typename == '.pdf':
-            pass
+        if not typename == '.pdf':    
+            os.system("python PdfTranslater.py %s %s"%(source_path,pdf_path))
+
         else:
             with open(pdf_path,'wb') as f:
                 f.write(myfile['body'])
+
+        source_path = source_path[len('static/'):]
+        pdf_path = pdf_path[len('static/'):]
 
         doc ={
             'title':title,
@@ -64,14 +71,26 @@ class Worker:
             'sourcelocation':source_path,
             'uploadtime':time.strftime('%F %X',time.localtime(time.time())),
             'downloadcount':0,
-            'username':userid,
+            'username':username,
             'cover':"",
         }
 
         return self.db.docs.insert(doc)
+        """
+        userinfo = self.db.users.find_one(name=username)
+        if userinfo is not None:
+            userinfo['upload'].append(str(result))
+        """
+
     def getIndexDoc(self):
         docs = self.db.docs.find(limit = 9)
         return docs
+
+    def getuserUpload(self,username):
+        return self.db.docs.find({'username':username}).limit(6)
+
+    def search_doc(*key_word):
+        self.db.doc.find({'docName':})
 
 
 if __name__ == '__main__':

@@ -1,25 +1,40 @@
 {% extends "base.html" %}
 
 {% block mainpage %}
-    <div class="container marketing ">
-      <!-- Three columns of text below the carousel -->
-      <div class="row" id="userinfo">
-        <div class="col-lg-4">
-          <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" style="width: 140px; height: 140px;">
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-8">
-          <h2>{{userinfo.get('username')}}</h2>
-          <p>我上传的<a href="#"></a> |   我下载的</p>
-          <a class="btn btn-default" href="#uploaddoc" role="button" data-toggle="modal">现在上传 &raquo;</a>
-        </div><!-- /.col-lg-8 -->
-      </div><!-- /.row -->
-      <hr class="userinfo-divider">
+  <div class="container marketing ">
+    <!-- Three columns of text below the carousel -->
+    <div class="row" id="userinfo">
+      <div class="col-lg-4">
+        {% if userinfo.get('cover') is not None %}        
+          <img class="img-circle" src="{{ static_url(userinfo.get('cover')) }}" style="width: 140px; height: 140px;">
+        {% else %}
+          <img class="img-circle" src="{{ static_url('images/48c1b8014a90f60393e4c93a3a12b31bb051ed3f.jpg')}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+        {% end %}
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-8">
+        <h2>{{userinfo.get('username')}}</h2>
+        <p>我上传的 |   我下载的</p>
+        <a class="btn btn-default" href="#uploaddoc" role="button" data-toggle="modal">现在上传 &raquo;</a>
+      </div><!-- /.col-lg-8 -->
+    </div><!-- /.row -->
+    <hr class="userinfo-divider">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2>我上传的</h2>
+      </div>
     </div>
-
-    {% end %}
-
-    {% block modal %}
-        <!--上传新pdf-->
+    <div class="row"  id="myupload">
+      {% for doc in userDocs %}
+        {% module docModule(doc) %}
+      {% end %}
+    </div>
+  </div>
+{% end %}
+{% block modal %}
+  {% for doc in userDocs %}
+    {% module showdocModule(doc) %}
+  {% end %}
+    <!--上传新pdf-->
     <div class="modal fade" id="uploaddoc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -33,23 +48,23 @@
             </h4>
           </div>
           <div class="modal-body" id="uploadform">
-            <from class="form-horizontal" role="form" enctype="multipart/form-data" method="post" role="form" action="/upload">
+            <form id="uploaddocfrom" class="form-horizontal" role="form" enctype="multipart/form-data" method="POST" action="/upload">
               <div class="form-group">
                 <label for="docuploadname" class="col-sm-2 control-label">文档名称</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="docuploadname" placeholder="请输入文档名称" name="docname">
+                  <input type="text" class="form-control" id="docuploadname" placeholder="请输入文档名称" name="docname"/>
                 </div>
               </div>
               <div class="form-group">
                 <label for="docuploaddetail" class="col-sm-2 control-label">文档描述</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="docuploaddetail" placeholder="请输入文档名称" name="docdetail">
+                    <input type="text" class="form-control" id="docuploaddetail" placeholder="请输入文档名称" name="docdetail"/>
                 </div>
               </div>
               <div class="form-group">
                 <label for="choiceclass" class="col-sm-2 control-label" >选择文件</label>
                 <div class="col-sm-8">
-                  <input type="file" id="myfile" name="docfile">
+                  <input type="file" id="myfile" name="docfile"/>
                 </div>
               </div>
               <div class="form-group">
@@ -70,14 +85,24 @@
             <button type="button" class="btn btn-default"
                     data-dismiss="modal">关闭
             </button>
-            <input id="signinsubmit" type="submit" class="btn btn-primary">
+            <button id="uploaddocsubmit"  class="btn btn-primary">
+            tijiao
             </button>
           </div>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal -->
+{% end %}
 
-    {% end %}
+{% block otherjs%}
+  <script type="text/javascript">
+    window.onload = function (){
+      {% for doc in userDocs %}
+        var temp{{doc.get('_id')}} = new PDFObject({ url:"{{doc.get('pdflocation')}}" }).embed("{{doc.get('_id')}}show");
+      {% end %}
+    };
+  </script>
+{% end %}
 
 
 

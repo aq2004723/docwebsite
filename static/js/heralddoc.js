@@ -16,4 +16,7 @@ $(document).ready(function(){
             }
         )
     });
+    $("#uploaddocsubmit").click(function(){
+        $("#uploaddocfrom").submit();
+    });
 });

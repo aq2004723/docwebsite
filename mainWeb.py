@@ -12,7 +12,7 @@ import uimodules
 
 
 from tornado.options import define, options
-define("port", default=8046, help="run on the given port", type=int)
+define("port", default=8093, help="run on the given port", type=int)
 
 class Application(tornado.web.Application):
     def __init__(self):
@@ -71,7 +71,8 @@ class UserInfoHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
         userinfo = self.application.db.getuserinfo(self.current_user)
-        self.render('userinfo.html',user=self.current_user, userinfo=userinfo)
+        userDocs = list(self.application.db.getuserUpload(self.current_user) )
+        self.render('userinfo.html',user=self.current_user, userinfo=userinfo,userDocs=userDocs)
 
 class DocviewHandler(BaseHandler):
     def get(self,docID):
@@ -79,17 +80,17 @@ class DocviewHandler(BaseHandler):
         self.render('viewer.html',rs = rs)
 
 class UseruploadHandler(BaseHandler):
-    @tornado.web.authenticated
-    @tornado.web.asynchronous
     def post(self):
-        filename=self.get_argument('filename')
-        description=self.get_argument('description')
-        myfile = self.request.files['file'][0]
-        self.finish()
+        docname=self.get_argument('docname')
+        description=self.get_argument('docdetail')
+        myfile = self.request.files['docfile'][0]
+        result = self.application.db.userupload(docname,description,myfile,"",self.current_user)
+        self.redirect("/user")
 
 class SearchHandler(BaseHandler):
     def post(self):
-        pass
+        docs = self.application.db.search_doc(self.get_argument('keywords'))
+        self.render('result.html',user=current_user,docs = docs)
 
 if __name__ == '__main__':
     tornado.options.parse_command_line()
