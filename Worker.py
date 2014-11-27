@@ -89,8 +89,16 @@ class Worker:
     def getuserUpload(self,username):
         return self.db.docs.find({'username':username}).limit(6)
 
-    def search_doc(*key_word):
-        self.db.doc.find({'docName':})
+    def search_doc(key_words):
+        key_word =[]
+        key_word_re = r"^"
+        for i in key_words.split(' '):
+            if i not in key_word:
+                key_word.append(i)
+                key_word_re = key_word_re + i +'|'
+        key_word_re = key_word_re[:len(key_word_re) - 1] + "$"
+
+        self.db.doc.find({'title': key_word_re})
 
 
 if __name__ == '__main__':

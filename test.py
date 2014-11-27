@@ -73,6 +73,14 @@ tornado.ioloop.IOLoop.instance().start()
 #for j in key_word:
 #    print j
 
-docs = db.docs.find()
-for i in docs:
-    print i
+def search_doc(key_words):
+    key_word =[]
+    key_word_re = r"^"
+    for i in key_words.split(' '):
+        if i not in key_word:
+            key_word.append(i)
+            key_word_re = key_word_re + i +'|'
+    key_word_re = key_word_re[:len(key_word_re) - 1] + "$"
+    print key_word_re
+
+search_doc("hehe haha ns")
